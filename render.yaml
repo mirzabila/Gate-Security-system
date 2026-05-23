@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: baig-house-gate-security-system
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r desktop_requirements_deploy.txt
+    startCommand: python desktop_app.py
+    healthCheckPath: /health
+    disk:
+      name: gate-security-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: OPEN_BROWSER
+        value: "0"
+      - key: DATABASE_URL
+        value: sqlite:////var/data/desktop_gate_alert.db
+      - key: SECRET_KEY
+        generateValue: true
